@@ -1,0 +1,23 @@
+{% extends 'app/base.html' %}
+{% block title %}Cardápio completo | Pão de Casa{% endblock %}
+{% block content %}
+<main class="catalog-page container">
+    <div class="catalog-heading">
+        <div><p class="eyebrow">Feito hoje, para comer hoje</p><h1>Nosso <em>cardápio.</em></h1><p class="catalog-intro">Pães, folhados e doces preparados em pequenos lotes, com ingredientes de verdade.</p></div>
+        {% if user.is_authenticated %}<a class="button button-dark" href="{% url 'product_create' %}">Cadastrar produto <span aria-hidden="true">+</span></a>{% endif %}
+    </div>
+    <div class="catalog-count">{{ products|length }} produto{{ products|length|pluralize:"s" }}</div>
+    <div class="catalog-list">
+        {% for product in products %}
+        <article class="catalog-row">
+            <a class="catalog-thumb" href="{% url 'product_detail' product.pk %}"><img src="{{ product.display_image }}" alt="{{ product.name }}" loading="lazy"></a>
+            <div class="catalog-row-copy"><span class="catalog-category">{{ product.get_category_display }}{% if not product.is_available %} · Fora de linha{% endif %}</span><h2><a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a></h2><p>{{ product.description|truncatewords:20 }}</p></div>
+            <strong class="catalog-price">R$ {{ product.price_display }}</strong>
+            {% if user.is_authenticated %}<div class="catalog-actions"><a href="{% url 'product_update' product.pk %}">Editar</a><a href="{% url 'product_delete' product.pk %}">Excluir</a></div>{% endif %}
+        </article>
+        {% empty %}
+        <div class="empty-state"><p class="eyebrow">A vitrine está vazia</p><h2>A próxima fornada começa aqui.</h2>{% if user.is_authenticated %}<a class="button button-dark" href="{% url 'product_create' %}">Cadastrar primeiro produto <span aria-hidden="true">+</span></a>{% endif %}</div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

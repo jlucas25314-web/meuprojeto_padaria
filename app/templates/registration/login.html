@@ -1,0 +1,13 @@
+{% extends 'app/base.html' %}
+{% block title %}Entrar | Pão de Casa{% endblock %}
+{% block content %}
+<main class="login-page container">
+    <div class="login-panel"><p class="eyebrow">Área da equipe</p><h1>Bom ter você <em>de volta.</em></h1><p class="login-intro">Entre para atualizar os produtos do nosso cardápio.</p>
+        <form method="post" class="product-form">{% csrf_token %}
+            {% if form.errors %}<div class="alert alert-danger" role="alert">Usuário ou senha incorretos. Confira seus dados e tente novamente.</div>{% endif %}
+            {% for field in form %}<div class="form-field"><label class="form-label" for="{{ field.id_for_label }}">{% if field.name == 'username' %}Usuário{% else %}Senha{% endif %}</label>{{ field }}{% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}</div>{% endfor %}
+            <input type="hidden" name="next" value="{{ next }}"><button class="button button-dark" type="submit">Entrar <span aria-hidden="true">&#8594;</span></button>
+        </form>
+    </div>
+</main>
+{% endblock %}

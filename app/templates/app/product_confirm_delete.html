@@ -1,0 +1,9 @@
+{% extends 'app/base.html' %}
+{% block title %}Excluir {{ product.name }} | Pão de Casa{% endblock %}
+{% block content %}
+<main class="confirm-page container">
+    <div class="confirm-panel"><p class="eyebrow">Remover do cardápio</p><h1>Tem certeza?</h1><p>O produto <strong>{{ product.name }}</strong> será removido permanentemente. Essa ação não pode ser desfeita.</p>
+        <form method="post">{% csrf_token %}<button class="button button-danger" type="submit">Sim, excluir produto</button><a class="button button-light" href="{% url 'product_detail' product.pk %}">Manter produto</a></form>
+    </div>
+</main>
+{% endblock %}
